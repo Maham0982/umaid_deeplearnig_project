@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f3ee" />
+  <meta name="description" content="Explore Umaid Ehsan's deep learning image classification project, built with Flask and a ResNet model." />
+  <title>Classify — Umaid Ehsan | Deep Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="page-grid" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Classify home"><span class="brand-symbol"><span></span><span></span><span></span><span></span></span><span>classify<span class="brand-period">.</span></span></a>
+    <nav aria-label="Main navigation"><a href="#classifier">Try the model</a><a href="#model">The model</a><a href="#workflow">Workflow</a><a href="#developer">Developer</a></nav>
+    <a class="source-button" href="https://github.com/umaidehsan/Image-Classification-Flask" target="_blank" rel="noreferrer">Source code <span>↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> DEEP LEARNING · COMPUTER VISION</div>
+        <h1>Teach a computer<br>to <em>see</em> the picture.</h1>
+        <p class="hero-description">An interactive introduction to image classification, built around <strong>Umaid Ehsan's</strong> ResNet-based deep learning project. Add an image and explore how a model turns visual information into a predicted label.</p>
+        <div class="hero-actions"><a class="button button-dark" href="#classifier">Try image classification <span>↓</span></a><a class="text-link" href="#model">Understand the model <span>↗</span></a></div>
+        <div class="hero-byline"><span class="status-mark"></span><span>PROJECT BY <strong>MUHAMMAD UMAID EHSAN</strong></span><span class="byline-separator">/</span><span>FLASK + RESNET</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of image analysis">
+        <div class="art-label label-top">INPUT / 001</div>
+        <div class="art-frame">
+          <div class="art-image">
+            <div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div>
+            <div class="scan-line"></div><div class="focus-box focus-a"></div><div class="focus-box focus-b"></div>
+            <div class="image-tag"><span></span> VISUAL INPUT</div>
+          </div>
+          <div class="art-coordinate">RGB IMAGE<br>PIXEL DATA</div>
+        </div>
+        <div class="art-connector"><span></span><span></span><span></span></div>
+        <div class="art-result"><div class="result-orbit">✳</div><div><span class="art-small-label">MODEL OUTPUT</span><strong>Class prediction</strong><small>Patterns → features → label</small></div><span class="art-arrow">↗</span></div>
+        <div class="art-label label-bottom">COMPUTER VISION / FIELD NOTES</div>
+        <div class="art-index">01—03</div>
+      </div>
+    </section>
+
+    <section class="quick-facts" aria-label="Project overview">
+      <div><span class="fact-number">01</span><span class="fact-label">TASK</span><strong>Image classification</strong></div>
+      <div><span class="fact-number">02</span><span class="fact-label">MODEL</span><strong>ResNet deep learning model</strong></div>
+      <div><span class="fact-number">03</span><span class="fact-label">INTERFACE</span><strong>Browser + Flask application</strong></div>
+      <div><span class="fact-number">04</span><span class="fact-label">DEVELOPER</span><strong>Umaid Ehsan</strong></div>
+    </section>
+
+    <section id="classifier" class="classifier-section">
+      <div class="section-heading">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> INTERACTIVE DEMO</div><h2>Put an image<br><em>to the test.</em></h2></div>
+        <p>Choose a picture from your device. The preview below lets you check the image before sending it to the prediction service.</p>
+      </div>
+      <div class="classifier-layout">
+        <div class="upload-panel">
+          <div class="panel-topline"><span>IMAGE INPUT</span><span class="panel-number">01 / 02</span></div>
+          <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose an image or drag it here">
+            <input id="file-input" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+            <div id="empty-state" class="empty-state">
+              <div class="upload-symbol"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 21V5m0 0-6 6m6-6 6 6"></path><path d="M6 20v6h20v-6"></path></svg></div>
+              <h3>Drop your image here</h3>
+              <p>or <button id="browse-btn" class="inline-button" type="button">browse your files</button></p>
+              <span class="file-note">JPG, PNG or WEBP · up to 10 MB</span>
+            </div>
+            <div id="preview-state" class="preview-state" hidden><img id="preview-image" alt="Selected image preview"><div class="preview-caption"><span id="file-name">selected-image.jpg</span><button id="remove-btn" type="button" aria-label="Remove image">Remove ×</button></div></div>
+          </div>
+          <div class="upload-bottom"><span><span class="lock-icon">⌑</span> Image is sent only when you request a prediction.</span><button id="classify-btn" class="button button-accent" disabled>Run classification <span>↗</span></button></div>
+          <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+        </div>
+        <aside class="result-panel">
+          <div class="panel-topline"><span>MODEL RESPONSE</span><span class="panel-number">02 / 02</span></div>
+          <div id="result-empty" class="result-empty"><div class="result-graphic"><div class="result-graphic-inner">?</div><span class="graphic-dot dot-one"></span><span class="graphic-dot dot-two"></span><span class="graphic-dot dot-three"></span></div><h3>Prediction appears here</h3><p>After a connected model processes your image, its predicted class will be shown in this panel.</p><div class="waiting-line"><span></span> WAITING FOR INPUT</div></div>
+          <div id="result" class="result-content" hidden><div class="result-status"><span class="result-check">✓</span> MODEL RESPONSE RECEIVED</div><div class="result-label">PREDICTED CLASS</div><h3 id="result-title">Prediction</h3><p id="result-copy"></p><button id="reset-btn" class="try-again" type="button">Classify another image ↗</button></div>
+          <div class="result-foot"><span>NOTE</span><p>A prediction is the model's best estimate, not a guarantee. Results depend on the model and image quality.</p></div>
+        </aside>
+      </div>
+      <p class="demo-disclaimer"><strong>Demo status:</strong> The interface is prepared for image uploads. Live prediction requires the original trained model and inference code to be connected to the deployment API; this starter package does not fabricate predictions.</p>
+    </section>
+
+    <section id="model" class="model-section">
+      <div class="section-heading model-heading">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> UNDER THE HOOD</div><h2>Meet the <em>model.</em></h2></div>
+        <p>The project repository identifies a trained ResNet model saved as <code>model_resnet.h5</code>. Here is what that means and how it fits into the application.</p>
+      </div>
+      <div class="model-feature">
+        <div class="model-visual">
+          <div class="model-visual-top"><span>NEURAL NETWORK / CONCEPT</span><span>RESNET</span></div>
+          <div class="network-visual" aria-hidden="true">
+            <div class="network-column"><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="network-lines"></span>
+            <div class="network-column middle"><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="network-lines lines-two"></span>
+            <div class="network-column last"><i></i><i></i><i></i></div>
+            <div class="skip-connection">RESIDUAL / SKIP CONNECTION</div>
+          </div>
+          <div class="model-visual-bottom"><span>IMAGE TENSOR</span><span>FEATURE LEARNING</span><span>CLASS SCORES</span></div>
+        </div>
+        <div class="model-explanation">
+          <div class="model-kicker">01 — MODEL ARCHITECTURE</div>
+          <h3>Residual learning<br>for visual patterns.</h3>
+          <p><strong>ResNet</strong> stands for Residual Network. It is a convolutional neural network architecture designed to learn useful visual features through layers of processing. Residual or “skip” connections let information travel across blocks, helping deeper networks learn effectively.</p>
+          <p>In image classification, those learned features can represent edges, textures, shapes and more complex visual patterns. The final model output is used to select the class with the strongest predicted score.</p>
+          <div class="model-tags"><span>Deep learning</span><span>Computer vision</span><span>Residual connections</span></div>
+        </div>
+      </div>
+      <div class="model-details">
+        <article><span class="detail-index">A / INPUT</span><div class="detail-icon">▧</div><h3>Image preparation</h3><p>The uploaded file must be decoded and transformed into the size, colour format and numeric representation expected by the trained model.</p></article>
+        <article><span class="detail-index">B / INFERENCE</span><div class="detail-icon">⌘</div><h3>Feature extraction</h3><p>The ResNet network processes the prepared image and calculates scores for the classes it was trained to recognise.</p></article>
+        <article><span class="detail-index">C / OUTPUT</span><div class="detail-icon">↗</div><h3>Predicted label</h3><p>The application maps the model output to a readable class label and displays the result back to the user.</p></article>
+      </div>
+      <div class="model-note"><span class="note-mark">i</span><p><strong>Technical note:</strong> The repository lists Python, Flask, TensorFlow/Keras, NumPy and a saved model file. The exact class list, input dimensions, training dataset and evaluation accuracy should be taken from the model code/report rather than assumed.</p><a href="https://github.com/umaidehsan/Image-Classification-Flask" target="_blank" rel="noreferrer">Check repository details ↗</a></div>
+    </section>
+
+    <section id="workflow" class="workflow-section">
+      <div class="eyebrow"><span class="eyebrow-line"></span> HOW IT WORKS</div><h2>One image. Three stages.</h2><p class="workflow-intro">The interface connects a user-friendly upload experience with a Python prediction workflow.</p>
+      <div class="workflow-list">
+        <article><div class="workflow-no">01</div><div class="workflow-main"><h3>Upload</h3><p>A user selects an image or drags it into the upload area. The browser shows a preview and validates the file type and size.</p></div><div class="workflow-tech">BROWSER UI</div></article>
+        <article><div class="workflow-no">02</div><div class="workflow-main"><h3>Preprocess & predict</h3><p>The backend receives the image, prepares it for the trained ResNet model, runs inference and determines the predicted class.</p></div><div class="workflow-tech">PYTHON · RESNET</div></article>
+        <article><div class="workflow-no">03</div><div class="workflow-main"><h3>Present the result</h3><p>The prediction response is returned to the interface and displayed in a readable result panel for the user.</p></div><div class="workflow-tech">RESULT UI</div></article>
+      </div>
+    </section>
+
+    <section id="developer" class="developer-section">
+      <div class="developer-monogram">UE<span>.</span></div>
+      <div class="developer-copy"><div class="eyebrow"><span class="eyebrow-line"></span> THE DEVELOPER</div><h2>Muhammad Umaid Ehsan</h2><p>This project demonstrates how a deep learning image classifier can be made accessible through a web interface. It brings together a trained model, Python-based application logic and a simple browser workflow for image submission and prediction display.</p><div class="developer-links"><a href="https://github.com/umaidehsan/Image-Classification-Flask" target="_blank" rel="noreferrer">View source on GitHub ↗</a><span>IMAGE CLASSIFICATION WEBSITE</span></div></div>
+    </section>
+    <section class="closing-line"><span>COMPUTER VISION IS A WAY OF SEEING.</span><span>BUILT TO LEARN · MADE TO EXPLORE <b>✳</b></span></section>
+  </main>
+  <footer><a class="brand footer-brand" href="#top"><span class="brand-symbol"><span></span><span></span><span></span><span></span></span><span>classify<span class="brand-period">.</span></span></a><span>Deep Learning Project · Muhammad Umaid Ehsan</span><a href="#top">Back to top ↑</a></footer>
+  <script src="/script.js"></script>
+</body>
+</html>
